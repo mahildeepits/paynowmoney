@@ -1,0 +1,318 @@
+.jOrgChart .line {
+    height: 6px;
+    width: 2px;
+}
+
+.jOrgChart .down {
+    background-color: #6F6F6F;
+    margin : 0px auto;
+}
+
+.jOrgChart .top {
+    border-top         :2px solid #6F6F6F;
+}
+
+.jOrgChart .left {
+    border-right: 2px solid #6F6F6F;
+}
+
+.jOrgChart .right {
+    border-left           : 2px solid white;
+}
+
+/* node cell */
+.jOrgChart td {
+    text-align            : center;
+    vertical-align        : top;
+    padding               : 0;
+}
+
+/* The node */
+.jOrgChart .node {
+    display               : inline-block;
+    width: 94px  !important;
+    margin: 0px 6px;
+    height:75px !important;
+    z-index: 10;
+    overflow: hidden!important;
+    word-break: break-all!important;
+}
+
+
+div#TreeView_ContainerDiv_0 div.user1 > a > div.con {
+    width: 100px !important;
+    display: block;
+}
+div#TreeView_ContainerDiv_0 div.user1#Tree0_1 > a > div.con {
+    margin-right: 1px;
+}
+div#TreeView_ContainerDiv_0 div.user1 > a > table {
+    width: 100%;
+}
+div#TreeView_ContainerDiv_0 {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+}
+div#TreeView_ContainerDiv_0 div.user1 {
+    margin: 0;
+    width: 100%;
+    float: left;
+}
+div#TreeView_ContainerDiv_0 div.user1:not(:first-child) {
+    width: 50%;
+}
+div#TreeView_ContainerDiv_0 a {
+    text-decoration: none;
+    color: #37a6c4;
+}
+div#TreeView_ContainerDiv_0 p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+div#TreeView_ContainerDiv_0 p + p {
+    position: relative;
+}
+div#TreeView_ContainerDiv_0 p + p.line::after {
+    position: absolute;
+    content: "";
+    height: 10px;
+    background-color: #242424;
+    width: 2px;
+    width: 2px;
+    bottom: -60%;
+    left: 50%;
+}
+div#TreeView_ContainerDiv_0 p + p.notline::after {
+}
+/* Basic styling */
+
+
+/* Custom chart styling */
+.jOrgChart {
+    margin              : 10px;
+    padding             : 20px;
+}
+
+/* Custom node styling */
+.jOrgChart .node {
+    font-size 		: 12px !important;
+    /* background-color 	: #35363B; */
+    /*  border-radius 		: 8px;
+        border                  : 5px solid white;
+        -moz-border-radius 	: 8px;*/
+    color 		: #428bca;
+}
+.node p{
+    font-family 	: tahoma;
+    font-size 		: 10px;
+    line-height 	: 11px;
+    padding 		: 2px;
+}
+
+.jOrgChart .tree_icon {
+    height:50px !important;
+    width:50px !important;
+    border-radius 	: 50% !important;
+}
+.jOrgChart .tree_up_icon {
+    border-radius 	: 50% !important;
+    margin-top  : -20px;
+    z-index : 999;
+    margin-left: -8px;
+    position: absolute;
+}
+
+.jOrgChart .username {
+    overflow: hidden;
+    width: auto;
+    color: #FFFFFF;
+    background: #454552;
+    padding: 2px 0px;
+    text-align:center;
+    border-radius: 2px;}
+
+
+
+
+/* Write your custom CSS here */
+
+/* Easy Tooltip */
+
+#easyTooltip{
+    margin:0 20px 1em 0;
+    width:260px;
+    max-width:279px;
+    word-break: break-all;
+    padding:8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #fff;
+    line-height:130%;
+    z-index:100000;
+}
+
+#easyTooltip h1{
+    font-size:180%;
+    font-weight:normal;
+}
+#easyTooltip h2{
+    font-size:160%;
+    font-weight:normal;
+}
+
+.img_bg img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0px!important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    float: none !important;
+}
+#easyTooltip h3{
+    font-size:140%;
+    font-weight:normal;
+    margin:0 0 .5em 0;
+    font:13px Arial, Helvetica, sans-serif;
+}
+#easyTooltip pre{
+    display:block;
+    font:12px "Courier New", Courier, monospace;
+    padding:10px;
+    border:1px solid #bae2f0;
+    background:#e3f4f9;
+    margin:.5em 0;
+    width:500px;
+}
+#easyTooltip p{
+    margin:0 0 .5em 0;
+    text-align:justify;
+}
+#easyTooltip img{
+    background:#fff;
+    padding:1px;
+    border:2px solid #ccc;
+    float:left;
+    margin-right:10px;
+}
+
+.img_bg{
+    width:100%;
+    float:left;
+    padding: 0px 0px 3px 0px;
+}
+
+.span_username{
+    font-weight:bold;
+    color:#333;
+    font-size:14px;
+}
+
+.tooltip_div {
+    line-height: 20px;
+}
+
+.tooltip_details {
+    line-height:20px;
+    border-top: 1px solid #cccccc;
+}
+
+.tooltip_table {
+    width:100%;
+    line-height:20px;
+}
+
+/*.tooltip_table tr:nth-child(odd) {
+    background-color:#f5f5f5;
+}
+*/
+/*.tooltip_table tr:nth-child(even) {
+    background-color:#fff;
+}*/
+
+.tooltip_table tr{
+    background-color:#fff;
+}
+
+.tooltip_table tr td {
+    padding: 5px 15px 5px 15px;
+    color: #333 !important;
+    text-align: left;
+}
+
+.table_pv {
+    text-align: right;
+}
+
+#easyTooltip  td,th {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+/* // Easy Tooltip */
+
+.small-box span{
+    width: 10px;
+    height: 10px;
+    display: block;
+    float: left
+}
+
+.small-box small{
+    margin-top: -3px;
+    display: block;
+    width: 60px;
+    margin-left: 16px;
+    font-size: 12px;
+}
+
+.white{
+    background: white;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.green{
+    background: green;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.yellow{
+    background: yellow;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.cyan{
+    background: cyan;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+.pink{
+    background: deeppink;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+
+.text-black{
+    color: #000;
+}
+
+
+.line-straight{
+    width: 695px;
+    height: 20px;
+    border-left: 2px solid #6F6F6F;
+    border-right: 2px solid #6F6F6F;
+    border-top: 2px solid #6F6F6F;
+}
+
+.paging_simple_numbers{
+    float: right;
+}

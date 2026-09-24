@@ -1,0 +1,112 @@
+.receipt-border {
+    border: 5px solid #CCCCCC;
+    height: 360px;
+    background: url("../images/receipt-bg.jpg") no-repeat;
+    background-size: 100%;
+}
+
+.logo-image {
+    margin-top: 32px;
+    margin-left: 40px;
+}
+
+.receipt-header-bg {
+    padding-right: 58px;
+    padding-top: 30px;
+}
+
+.receipt-to {
+    padding-left: 55px;
+    padding-top: 24px;
+}
+
+.receipt-amount {
+    padding-top: 24px;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.border-invoice {
+    border: 2px solid #CCCCCC;
+}
+
+.idcard-header {
+    background: #51355d;
+}
+
+.id-card-table {
+    width: 100%;
+}
+
+.idcard-footer {
+    background: #51355d;
+    color: white;
+}
+
+.profile-image-det {
+    width: 120px;
+}
+
+
+
+.modal.left .modal-dialog,
+.modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+}
+
+.modal.left .modal-content,
+.modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.modal.left .modal-body,
+.modal.right .modal-body {
+    padding: 15px 15px 80px;
+}
+
+/*Left*/
+.modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.left.fade.in .modal-dialog {
+    left: 0;
+}
+
+/*Right*/
+.modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+    right: 0;
+}
+
+/* ----- MODAL STYLE ----- */
+.modal-content {
+    border-radius: 0;
+    border: none;
+}
+
+.modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+}

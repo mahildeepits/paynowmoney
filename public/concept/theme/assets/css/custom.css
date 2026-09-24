@@ -1,0 +1,183 @@
+/* Write your custom CSS here */
+
+/* Easy Tooltip */
+
+#easyTooltip{
+    margin:0 20px 1em 0;
+    width:260px;
+    max-width:279px;
+    word-break: break-all;
+    padding:8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #fff;
+    line-height:130%;
+    z-index:100000;
+}
+
+#easyTooltip h1{
+    font-size:180%;
+    font-weight:normal;
+}
+#easyTooltip h2{
+    font-size:160%;
+    font-weight:normal;
+}
+
+.img_bg img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0px!important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    float: none !important;
+}
+#easyTooltip h3{
+    font-size:140%;
+    font-weight:normal;
+    margin:0 0 .5em 0;
+    font:13px Arial, Helvetica, sans-serif;
+}
+#easyTooltip pre{
+    display:block;
+    font:12px "Courier New", Courier, monospace;
+    padding:10px;
+    border:1px solid #bae2f0;
+    background:#e3f4f9;
+    margin:.5em 0;
+    width:500px;
+}
+#easyTooltip p{
+    margin:0 0 .5em 0;
+    text-align:justify;
+}
+#easyTooltip img{
+    background:#fff;
+    padding:1px;
+    border:2px solid #ccc;
+    float:left;
+    margin-right:10px;
+}
+
+.img_bg{
+    width:100%;
+    float:left;
+    padding: 0px 0px 3px 0px;
+}
+
+.span_username{
+    font-weight:bold;
+    color:#333;
+    font-size:14px;
+}
+
+.tooltip_div {
+    line-height: 20px;
+}
+
+.tooltip_details {
+    line-height:20px;
+    border-top: 1px solid #cccccc;
+}
+
+.tooltip_table {
+    width:100%;
+    line-height:20px;
+}
+
+/*.tooltip_table tr:nth-child(odd) {
+    background-color:#f5f5f5;
+}
+*/
+/*.tooltip_table tr:nth-child(even) {
+    background-color:#fff;
+}*/
+
+.tooltip_table tr{
+    background-color:#fff;
+}
+
+.tooltip_table tr td {
+    padding: 5px 15px 5px 15px;
+    color: #333 !important;
+    text-align: center;
+}
+
+.table_pv {
+    text-align: right;
+}
+
+#easyTooltip  td,th {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+/* // Easy Tooltip */
+
+.small-box span{
+    width: 10px;
+    height: 10px;
+    display: block;
+    float: left
+}
+
+.small-box small{
+    margin-top: -3px;
+    display: block;
+    width: 60px;
+    margin-left: 16px;
+    font-size: 12px;
+}
+
+.white{
+    background: white;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.green{
+    background: green;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.yellow{
+    background: yellow;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+.cyan{
+    background: cyan;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+.pink{
+    background: deeppink;
+    color: #FFF;
+    box-shadow: 1px 1px 1px 1px #CCCC;
+}
+
+
+.text-black{
+    color: #000;
+}
+
+
+.line-straight{
+    width: 695px;
+    height: 20px;
+    border-left: 2px solid #6F6F6F;
+    border-right: 2px solid #6F6F6F;
+    border-top: 2px solid #6F6F6F;
+}
+
+.paging_simple_numbers{
+    float: right;
+}
+
+.font-40{
+    font-size: 40px;
+}
