@@ -168,17 +168,6 @@ class AuthController extends Controller
                 $kycDocs->save();
             }
 
-            // Create 16 EMIs
-            $startDate = Carbon::now();
-            for ($i = 0; $i < 16; $i++) {
-                \App\Models\Emi::create([
-                    'user_id' => $userModel->id,
-                    'amount' => 1300,
-                    'month' => $startDate->copy()->addMonths($i)->format('F Y'),
-                    'status' => 'submitted',
-                    'paid_at' => now(),
-                ]);
-            }
 
             if ($request->has('epin') && !empty($request->epin) && $request->epin != '1231231') {
                 $this->updateUsedPin($request, $userModel);

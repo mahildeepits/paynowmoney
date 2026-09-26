@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('generate:monthly-coupon')->daily();
-        $schedule->command('make:monthly-emi')->monthlyOn(1, '00:00');
+        // $schedule->command('make:monthly-emi')->monthlyOn(1, '00:00');
     }
 
     /**

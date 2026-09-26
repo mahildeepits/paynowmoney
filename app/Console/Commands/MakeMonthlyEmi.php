@@ -26,6 +26,8 @@ class MakeMonthlyEmi extends Command
     public function handle()
     {
         $this->info('Starting EMI generation...');
+        $this->info('Monthly EMI generation is disabled as per client request.');
+        return;
         
         $currentDate = \Carbon\Carbon::now();
         $monthStr = $currentDate->format('F Y');
