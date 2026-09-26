@@ -72,7 +72,7 @@ Route::get('fix/userenc',function(){
 
 //Admin Route
 Route::get('/',function(){
-    return redirect()->route('login');
+    return redirect('admin');
 });
 Route::group(['prefix'=>'admin'], function (){
     Route::get('login',[AuthControllerAlias::class,'loginForm'])->name('admin.login');
@@ -214,7 +214,7 @@ Route::group(['prefix'=>'admin'], function (){
     Route::get('memberids',[UsersController::class,'searchMembers'])->name('search-members');
 });
 
-Route::group(['prefix' => 'member'], function (){
+/* Route::group(['prefix' => 'member'], function (){
 
     Route::get('login',[AuthController::class,'loginForm'])->name('login');
     Route::post('login',[AuthController::class,'login'])->name('login');
@@ -308,7 +308,7 @@ Route::group(['prefix' => 'member'], function (){
     Route::get('joining-pins/available',[AjaxController::class,'joiningPins'])->name('available.joining-pins');
     Route::get('send/otp',[AjaxController::class,'sendOtp'])->name('send.otp');
 
-});
+}); */
 
 Route::group(['prefix'=>'student'],function(){
     Route::group(['middleware'=>'member_auth'], function(){
