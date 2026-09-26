@@ -14,6 +14,7 @@ class UserLoan extends Model
         'loan_type_id',
         'status',
         'approved_at',
+        'rejection_reason',
     ];
 
     public function user()

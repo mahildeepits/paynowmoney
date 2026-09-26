@@ -97,12 +97,7 @@
                                         <td>
                                             <a target="_blank" href="{{ route('admin.edit.user',['member_id'=>$user->member_id]) }}" class="btn btn-info btn-xs">Edit</a>
                                             <a href="{{ route('admin.users',['kyc_details'=>$user->id]) }}" class="btn btn-danger btn-xs">KYC</a>
-                                            <button class="btn btn-primary btn-xs view-emis-btn" data-id="{{ $user->id }}" data-name="{{ $user->name }}">Installments</button>
-                                            @if($user->is_blocked)
-                                                <a href="{{ route('admin.users',['unblock_user'=>$user->id]) }}" class="btn btn-danger btn-xs">Un-Block</a>
-                                            @else
-                                                <a href="{{ route('admin.users',['block_user'=>$user->id]) }}" class="btn btn-warning btn-xs">Block</a>
-                                            @endif
+
                                             @if($user->is_paid == 0 && $user->user_icon == 'golden.png')
                                                 <a href="{{ route('set-user-to-paid',$user->id) }}" onclick="return confirm('Are you sure to set as paid user ?')" class="btn btn-dark btn-xs">Paid</a>
                                             @endif

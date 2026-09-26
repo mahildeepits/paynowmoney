@@ -71,6 +71,9 @@ class UserLoanController extends Controller
         }
 
         $userLoan->status = 'rejected';
+        if ($request->has('rejection_reason')) {
+            $userLoan->rejection_reason = $request->rejection_reason;
+        }
         $userLoan->save();
 
         return redirect()->back()->with('success', 'Loan request rejected.');

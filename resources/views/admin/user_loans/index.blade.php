@@ -38,6 +38,9 @@
                                                 <span class="badge badge-success">Approved / Active</span>
                                             @elseif($loan->status == 'rejected')
                                                 <span class="badge badge-danger">Rejected</span>
+                                                @if($loan->rejection_reason)
+                                                    <br><small class="text-danger">Reason: {{ $loan->rejection_reason }}</small>
+                                                @endif
                                             @else
                                                 <span class="badge badge-secondary">{{ ucfirst($loan->status) }}</span>
                                             @endif
@@ -49,7 +52,7 @@
                                                     @csrf
                                                     <button type="submit" class="btn btn-success btn-sm">Approve</button>
                                                 </form>
-                                                <form action="{{ route('admin.user_loans.reject', $loan->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to reject this loan?');">
+                                                <form action="{{ route('admin.user_loans.reject', $loan->id) }}" method="POST" style="display:inline;" onsubmit="let reason = prompt('Please enter the reason for rejection:'); if(reason !== null) { this.insertAdjacentHTML('beforeend', '<input type=\'hidden\' name=\'rejection_reason\' value=\'' + reason + '\'>'); return true; } return false;">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                                                 </form>
