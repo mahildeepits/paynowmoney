@@ -35,7 +35,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="text-center">Epin Report</h4>
-                {!! Form::open(['route' => 'member.pins.history', 'method' => 'GET']) !!}
+                {!! Form::open(['route' => 'admin.pin.history', 'method' => 'GET']) !!}
                     <div class="row">
                         <div class="col-md-3">
                             {!! Form::label('from_date', 'From Date') !!}

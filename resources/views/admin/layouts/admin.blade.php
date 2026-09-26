@@ -69,7 +69,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {!! Form::open(['route'=>'member.topup.now']) !!}
+                        {!! Form::open(['url'=>'#']) !!}
                             <div class="row">
                                 <div class="col-md-12">
                                     {!! Form::label('pin_no','Pin No') !!}
