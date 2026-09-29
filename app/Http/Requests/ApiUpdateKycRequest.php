@@ -16,8 +16,12 @@ class ApiUpdateKycRequest extends FormRequest
     public function rules()
     {
         return [
-            'card_no' => 'required',
-            'kyc_type' => 'required'
+            'aadhar_no' => 'nullable|string',
+            'aadhar_front' => 'nullable|image',
+            'aadhar_back' => 'nullable|image',
+            'pan_no' => 'nullable|string',
+            'pan_front' => 'nullable|image',
+            'pan_back' => 'nullable|image',
         ];
     }
 

@@ -226,6 +226,18 @@ class User extends Authenticatable
         return $this->belongsTo(KycDoc::class,'id','user_id');
     }
 
+    public function userKyc(){
+        return $this->hasOne(UserKyc::class,'user_id','id');
+    }
+
+    public function isKycApproved(){
+        $kyc = $this->userKyc;
+        if($kyc){
+            return $kyc->aadhar_status == 1 && $kyc->pan_status == 1;
+        }
+        return false;
+    }
+
     public function saleEntries() {
         return $this->hasMany(SaleEntry::class,'user_id','id');
     }
@@ -369,4 +381,13 @@ class User extends Authenticatable
         return $this->belongsTo(SelectionProduct::class, 'selection_product_id');
     }
 
+    public function userRds()
+    {
+        return $this->hasMany(UserRd::class, 'user_id', 'id');
+    }
+
+    public function rdEmis()
+    {
+        return $this->hasMany(UserRdEmi::class, 'user_id', 'id');
+    }
 }

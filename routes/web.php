@@ -140,6 +140,9 @@ Route::group(['prefix'=>'admin'], function (){
 
         Route::get('kyc-details',[UsersController::class,'editKyc'])->name('admin.edit.kyc');
         Route::post('kyc-details/update',[UsersController::class,'updateKycDetails'])->name('admin.update.kyc');
+        
+        Route::get('user/{id}/kyc', [UsersController::class, 'getUserKyc'])->name('admin.user.kyc');
+        Route::post('kyc/status', [UsersController::class, 'updateKycStatus'])->name('admin.kyc.status');
 
         Route::match(['get','post'],'settings',[UsersController::class,'adminCharges'])->name('admin.charges');
 
@@ -209,6 +212,10 @@ Route::group(['prefix'=>'admin'], function (){
 
         // RD Master
         Route::resource('rds', \App\Http\Controllers\Admin\RdMasterController::class)->names('admin.rds');
+
+        // User RDs
+        Route::get('user-rds', [\App\Http\Controllers\Admin\UserRdController::class, 'index'])->name('admin.user_rds.index');
+        Route::post('user-rds/{id}/review', [\App\Http\Controllers\Admin\UserRdController::class, 'review'])->name('admin.user_rds.review');
 
     });
     Route::get('memberids',[UsersController::class,'searchMembers'])->name('search-members');

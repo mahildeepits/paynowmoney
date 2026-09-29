@@ -1,68 +1,26 @@
 @extends('admin.layouts.admin')
 @section('title','MLM Software - Admin Panel')
 @section('content')
-    @if(request()->has('kyc_details'))
-        <div class="modal fade" id="kyc-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">KYC Details</h5>
-                        <button type="button" onclick="window.location.href='{{ route('admin.users') }}'" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <div class="modal fade" id="kyc-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">KYC Details for <span id="modal-kyc-user-name"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="kyc-modal-body">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status"></div>
                     </div>
-                    <div class="modal-body">
-                        @if($kycDetails != null)
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label>KYC Type</label>
-                                    @switch($kycDetails->kyc_type)
-                                        @case('1')
-                                            <h6>Adhaar Card</h6>
-                                        @break
-                                        @case('2')
-                                            <h6>Voter ID</h6>
-                                        @break
-                                        @case('3')
-                                            <h6>Driving License</h6>
-                                        @break
-                                    @endswitch
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <label>Detail</label>
-                                    <h6>{{ $kycDetails->card_no }}</h6>
-                                </div>
-                                @if($kycDetails->card_front != '')
-                                    <div class="col-md-6 form-group">
-                                        <label>Card Front</label>
-                                        <img src="{{ asset('images/kyc_docs/'.$kycDetails->card_front) }}" width="150" />
-                                    </div>
-                                @endif
-                                @if($kycDetails->card_back != '')
-                                    <div class="col-md-6 form-group">
-                                        <label>Card Front</label>
-                                        <img src="{{ asset('images/kyc_docs/'.$kycDetails->card_back) }}" width="150s" />
-                                    </div>
-                                @endif
-                            </div>
-                        @else
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <i>No details found</i>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    @if($kycDetails != null)
-                        <div class="modal-footer">
-                            <a href="{{ route('admin.edit.kyc',['user_id'=>$kycDetails->user_id]) }}" class="btn btn-info">Edit Details</a>
-                            <a href="{{ route('admin.users') }}" class="btn btn-secondary">Close</a>
-                        </div>
-                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    @endif
+    </div>
     <div id="main-wrapper">
         <div class="content-header">
             <h1 class="page-title">Users</h1>
@@ -96,7 +54,7 @@
                                         <td>{{ $user->mobile }}</td>
                                         <td>
                                             <a target="_blank" href="{{ route('admin.edit.user',['member_id'=>$user->member_id]) }}" class="btn btn-info btn-xs">Edit</a>
-                                            <a href="{{ route('admin.users',['kyc_details'=>$user->id]) }}" class="btn btn-danger btn-xs">KYC</a>
+                                            <button data-id="{{ $user->id }}" class="btn btn-primary btn-xs view-kyc-btn">KYC</button>
 
                                             @if($user->is_paid == 0 && $user->user_icon == 'golden.png')
                                                 <a href="{{ route('set-user-to-paid',$user->id) }}" onclick="return confirm('Are you sure to set as paid user ?')" class="btn btn-dark btn-xs">Paid</a>
@@ -366,9 +324,115 @@
                     $('input[type=search]').val('{{ request()->q }}').trigger('keyup');
                 },500);
             @endif
-            @if(request()->has('kyc_details'))
+            var currentKycUserId = null;
+
+            $(document).on('click', '.view-kyc-btn', function() {
+                var userId = $(this).data('id');
+                currentKycUserId = userId;
+                $('#kyc-modal-body').html('<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>');
                 $('#kyc-modal').modal('show');
-            @endif
+                
+                $.get("{{ url('admin/user') }}/" + userId + "/kyc", function(res) {
+                    $('#modal-kyc-user-name').text(res.user_name + ' (' + res.member_id + ')');
+                    if(res.status) {
+                        var kyc = res.data;
+                        var imgPath = res.image_path;
+                        var html = '<div class="row">';
+                        
+                        // Aadhar Section
+                        html += '<div class="col-md-6 border-right">';
+                        html += '<h4>Aadhar Details</h4><hr/>';
+                        html += '<p><strong>Number:</strong> ' + (kyc.aadhar_no || 'N/A') + '</p>';
+                        html += '<p><strong>Status:</strong> ' + getStatusBadge(kyc.aadhar_status) + '</p>';
+                        if(kyc.aadhar_reject_reason) html += '<p class="text-danger"><strong>Reason:</strong> ' + kyc.aadhar_reject_reason + '</p>';
+                        
+                        html += '<div class="row">';
+                        if(kyc.aadhar_front) html += '<div class="col-6"><p>Front</p><a target="_blank" href="'+imgPath+kyc.aadhar_front+'"><img src="'+imgPath+kyc.aadhar_front+'" class="img-fluid rounded border" /></a></div>';
+                        if(kyc.aadhar_back) html += '<div class="col-6"><p>Back</p><a target="_blank" href="'+imgPath+kyc.aadhar_back+'"><img src="'+imgPath+kyc.aadhar_back+'" class="img-fluid rounded border" /></a></div>';
+                        html += '</div>';
+                        
+                        if(kyc.aadhar_status == 0 && (kyc.aadhar_front || kyc.aadhar_no)) {
+                            html += '<div class="mt-3"><button class="btn btn-success btn-sm change-kyc-status" data-id="'+kyc.id+'" data-type="aadhar" data-status="1">Approve</button> ';
+                            html += '<button class="btn btn-danger btn-sm change-kyc-status" data-id="'+kyc.id+'" data-type="aadhar" data-status="2">Reject</button></div>';
+                        }
+                        html += '</div>';
+
+                        // PAN Section
+                        html += '<div class="col-md-6">';
+                        html += '<h4>PAN Details</h4><hr/>';
+                        html += '<p><strong>Number:</strong> ' + (kyc.pan_no || 'N/A') + '</p>';
+                        html += '<p><strong>Status:</strong> ' + getStatusBadge(kyc.pan_status) + '</p>';
+                        if(kyc.pan_reject_reason) html += '<p class="text-danger"><strong>Reason:</strong> ' + kyc.pan_reject_reason + '</p>';
+                        
+                        html += '<div class="row">';
+                        if(kyc.pan_front) html += '<div class="col-6"><p>Front</p><a target="_blank" href="'+imgPath+kyc.pan_front+'"><img src="'+imgPath+kyc.pan_front+'" class="img-fluid rounded border" /></a></div>';
+                        if(kyc.pan_back) html += '<div class="col-6"><p>Back</p><a target="_blank" href="'+imgPath+kyc.pan_back+'"><img src="'+imgPath+kyc.pan_back+'" class="img-fluid rounded border" /></a></div>';
+                        html += '</div>';
+                        
+                        if(kyc.pan_status == 0 && (kyc.pan_front || kyc.pan_no)) {
+                            html += '<div class="mt-3"><button class="btn btn-success btn-sm change-kyc-status" data-id="'+kyc.id+'" data-type="pan" data-status="1">Approve</button> ';
+                            html += '<button class="btn btn-danger btn-sm change-kyc-status" data-id="'+kyc.id+'" data-type="pan" data-status="2">Reject</button></div>';
+                        }
+                        html += '</div>';
+                        
+                        html += '</div>'; // end row
+                        $('#kyc-modal-body').html(html);
+                    } else {
+                        $('#kyc-modal-body').html('<div class="alert alert-warning text-center">No KYC documents uploaded yet.</div>');
+                    }
+                });
+            });
+
+            function getStatusBadge(status) {
+                if(status == 0) return '<span class="badge badge-warning">Pending</span>';
+                if(status == 1) return '<span class="badge badge-success">Approved</span>';
+                if(status == 2) return '<span class="badge badge-danger">Rejected</span>';
+                return '-';
+            }
+
+            $(document).on('click', '.change-kyc-status', function() {
+                var btn = $(this);
+                var id = btn.data('id');
+                var type = btn.data('type');
+                var status = btn.data('status');
+                var reason = '';
+                
+                if (status == 2) {
+                    reason = prompt("Please enter the reason for rejection:");
+                    if (reason === null) return; // User cancelled
+                    if (reason.trim() === '') {
+                        alert("Rejection reason is required!");
+                        return;
+                    }
+                } else {
+                    if(!confirm('Are you sure you want to approve this ' + type.toUpperCase() + ' document?')) return;
+                }
+                
+                btn.prop('disabled', true);
+                
+                $.ajax({
+                    url: "{{ route('admin.kyc.status') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        kyc_id: id,
+                        doc_type: type,
+                        status: status,
+                        reject_reason: reason
+                    },
+                    success: function(res) {
+                        if(res.status) {
+                            if(typeof toastr !== 'undefined') toastr.success(res.message); else alert(res.message);
+                            // Refresh modal content
+                            $('.view-kyc-btn[data-id="'+currentKycUserId+'"]').trigger('click');
+                        }
+                    },
+                    error: function() {
+                        alert('Something went wrong!');
+                        btn.prop('disabled', false);
+                    }
+                });
+            });
 
             var currentUserId = null;
 

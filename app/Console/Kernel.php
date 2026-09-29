@@ -16,8 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('generate:monthly-coupon')->daily();
+        // $schedule->command('generate:monthly-coupon')->daily();
         // $schedule->command('make:monthly-emi')->monthlyOn(1, '00:00');
+        $schedule->command('rd:emi-reminders')->dailyAt('09:00');
     }
 
     /**

@@ -57,6 +57,13 @@ class LoanController extends Controller
             ], 422);
         }
 
+        if (!$user->isKycApproved()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Please complete your KYC to apply for a loan.'
+            ], 403);
+        }
+
         $loanType = LoanType::find($request->loan_type_id);
 
         $directActiveUsersCount = $user->allChildMembers()->where('is_paid', 1)->count();

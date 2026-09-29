@@ -65,4 +65,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
     // RD Plans
     Route::get('/rd-plans', [\App\Http\Controllers\Api\RdController::class, 'index']);
+    Route::get('/rd/check-eligibility', [\App\Http\Controllers\Api\RdController::class, 'checkEligibility']);
+    Route::post('/rd/apply', [\App\Http\Controllers\Api\RdController::class, 'apply']);
+    Route::get('/rd/my-rds', [\App\Http\Controllers\Api\RdController::class, 'myRds']);
 });

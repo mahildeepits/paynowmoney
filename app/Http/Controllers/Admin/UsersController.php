@@ -199,4 +199,46 @@ class UsersController extends Controller
 
         return back();
     }
+
+    public function getUserKyc($id)
+    {
+        $kyc = \App\Models\UserKyc::where('user_id', $id)->first();
+        $user = \App\Models\User::find($id);
+
+        if (!$kyc) {
+            return response()->json(['status' => false, 'message' => 'No KYC found for this user', 'user_name' => $user->name, 'member_id' => $user->member_id]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => $kyc,
+            'user_name' => $user->name,
+            'member_id' => $user->member_id,
+            'image_path' => asset('images/kyc_docs') . '/'
+        ]);
+    }
+
+    public function updateKycStatus(Request $request)
+    {
+        $request->validate([
+            'kyc_id' => 'required|exists:user_kycs,id',
+            'doc_type' => 'required|in:aadhar,pan',
+            'status' => 'required|in:1,2',
+            'reject_reason' => 'nullable|string'
+        ]);
+
+        $kyc = \App\Models\UserKyc::find($request->kyc_id);
+        
+        if ($request->doc_type == 'aadhar') {
+            $kyc->aadhar_status = $request->status;
+            $kyc->aadhar_reject_reason = $request->status == 2 ? $request->reject_reason : null;
+        } else {
+            $kyc->pan_status = $request->status;
+            $kyc->pan_reject_reason = $request->status == 2 ? $request->reject_reason : null;
+        }
+        
+        $kyc->save();
+
+        return response()->json(['status' => true, 'message' => 'KYC status updated successfully!']);
+    }
 }

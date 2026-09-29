@@ -24,7 +24,7 @@ class AccountController extends Controller
         $user = auth()->user();
         
         $profile = UserProfile::where('user_id', $user->id)->first();
-        $kyc = KycDoc::where('user_id', $user->id)->get();
+        $kyc = \App\Models\UserKyc::where('user_id', $user->id)->first();
         $bank = UserBankDetail::where('user_id', $user->id)->first();
 
         return response()->json([
@@ -116,37 +116,55 @@ class AccountController extends Controller
     public function updateKycDocuments(ApiUpdateKycRequest $request)
     {
         $user = auth()->user();
-        $kycDocs = KycDoc::where('user_id', $user->id)->where('kyc_type', $request->kyc_type)->first();
+        $kyc = \App\Models\UserKyc::firstOrNew(['user_id' => $user->id]);
         
-        if ($kycDocs == null) {
-            $kycDocs = new KycDoc();
-            $kycDocs->user_id = $user->id;
-            $kycDocs->fill($request->except(['card_front', 'card_back']));
+        // Handle Aadhar Update if sent and not approved
+        if ($request->has('aadhar_no') && $kyc->aadhar_status != 1) {
+            $kyc->aadhar_no = $request->aadhar_no;
+            $kyc->aadhar_status = 0; // Set to pending
+            $kyc->aadhar_reject_reason = null;
             
-            if ($request->hasFile('card_front') && $request->hasFile('card_back')) {
-                $CardFront = "IMG_" . time() . '_' . rand(11111111, 9999999) . '.' . $request->file('card_front')->getClientOriginalExtension();
-                $request->file('card_front')->move(public_path('images/kyc_docs/'), $CardFront);
-                
-                $CardBack = "IMG_" . time() . '_' . rand(11111111, 9999999) . '.' . $request->file('card_back')->getClientOriginalExtension();
-                $request->file('card_back')->move(public_path('images/kyc_docs/'), $CardBack);
-                
-                $kycDocs->card_front = $CardFront;
-                $kycDocs->card_back = $CardBack;
+            if ($request->hasFile('aadhar_front')) {
+                $file = $request->file('aadhar_front');
+                $filename = "AADHAR_F_" . time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/kyc_docs/'), $filename);
+                $kyc->aadhar_front = $filename;
             }
-            $kycDocs->save();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'KYC details saved successfully!',
-                'data' => $kycDocs
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => "You can't update the details again!",
-                'data' => null
-            ], 403);
+            if ($request->hasFile('aadhar_back')) {
+                $file = $request->file('aadhar_back');
+                $filename = "AADHAR_B_" . time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/kyc_docs/'), $filename);
+                $kyc->aadhar_back = $filename;
+            }
         }
+
+        // Handle PAN Update if sent and not approved
+        if ($request->has('pan_no') && $kyc->pan_status != 1) {
+            $kyc->pan_no = $request->pan_no;
+            $kyc->pan_status = 0; // Set to pending
+            $kyc->pan_reject_reason = null;
+            
+            if ($request->hasFile('pan_front')) {
+                $file = $request->file('pan_front');
+                $filename = "PAN_F_" . time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/kyc_docs/'), $filename);
+                $kyc->pan_front = $filename;
+            }
+            if ($request->hasFile('pan_back')) {
+                $file = $request->file('pan_back');
+                $filename = "PAN_B_" . time() . '_' . rand(1111, 9999) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/kyc_docs/'), $filename);
+                $kyc->pan_back = $filename;
+            }
+        }
+
+        $kyc->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'KYC details updated successfully!',
+            'data' => $kyc
+        ], 200);
     }
 
     /**
