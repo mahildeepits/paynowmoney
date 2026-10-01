@@ -334,3 +334,11 @@ Route::group(['prefix'=>'student'],function(){
 //Route::get('/business',[WebsiteController::class,'business'])->name('web.business');
 //Route::get('/products',[WebsiteController::class,'products'])->name('web.products');
 //Route::get('/contact-us',[WebsiteController::class,'contactUs'])->name('web.contact');
+
+Route::get('/privacy-policy', function () {
+    return view('frontend.privacy-policy');
+})->name('privacy.policy');
+
+Route::get('/delete-account', function () {
+    return view('frontend.delete-account');
+})->name('delete.account');
