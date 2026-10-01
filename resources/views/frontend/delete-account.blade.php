@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion - {{ config('app.name') }}</title>
+    <title>Account Deletion - Paynowmoney</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -54,7 +54,7 @@
 <body>
     <div class="container">
         <h1>Account Deletion</h1>
-        <p>If you wish to delete your {{ config('app.name') }} account and associated data, you can request it by following the instructions below.</p>
+        <p>If you wish to delete your Paynowmoney account and associated data, you can request it by following the instructions below.</p>
         
         <h3>How to Request Account Deletion</h3>
         <p>Please send an email to <a href="mailto:privacy@paynowmoney.com">privacy@paynowmoney.com</a> from the email address registered with your account.</p>
