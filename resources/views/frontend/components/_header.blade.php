@@ -23,14 +23,14 @@
         </div>
     </div>
 
-    @if(request()->route()->getName() == 'web.home')
+    @if(request()->is('/'))
         <!-- Header Upper -->
         <div class="header-upper">
             <div class="auto-container">
                 <div class="clearfix">
 
                     <div class="logo pull-left">
-                        <div class="logo"><a href="{{ route('web.home') }}"><img src="assets/images/logo.png" alt="" title=""></a></div>
+                        <div class="logo"><a href="{{ url('/') }}"><img src="assets/images/logo.png" alt="" title=""></a></div>
                     </div>
 
                     <div class="pull-right upper-right clearfix">
@@ -55,7 +55,7 @@
         <div class="auto-container">
             <div class="inner-container d-flex justify-content-between align-items-center">
 
-                @if(request()->route()->getName() != 'web.home')
+                @if(!request()->is('/'))
                     <!-- Logo -->
                     <div class="logo pull-left" style="width: 400px;">
                         <div class="logo"><a href="index.html"><img src="assets/images/logo.png" alt="" title=""></a></div>
@@ -79,19 +79,19 @@
 
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                             <ul class="navigation clearfix">
-                                <li class="current"><a href="{{ route('web.home') }}">Home</a>
+                                <li class="current"><a href="{{ url('/') }}">Home</a>
                                 </li>
-                                <li><a href="{{ route('web.aboutus') }}">About Us</a>
+                                <li><a href="{{ url('/about-us') }}">About Us</a>
                                 </li>
-                                <li><a href="{{ route('web.business') }}">Business</a>
+                                <li><a href="{{ url('/business') }}">Business</a>
                                 </li>
-                                <li><a href="{{ route('web.products') }}">Products</a>
+                                <li><a href="{{ url('/products') }}">Products</a>
                                 </li>
                                 <li><a href="javascript:void(0)">Rewards</a>
                                 </li>
-                                <li><a href="{{ route('login') }}">Login</a></li>
-                                <li><a href="{{ route('register') }}">Join Us</a></li>
-                                <li><a href="{{ route('web.contact') }}">Contact Us</a></li>
+                                <li><a href="{{ url('/member/login') }}">Login</a></li>
+                                <li><a href="{{ url('/member/register') }}">Join Us</a></li>
+                                <li><a href="{{ url('/contact-us') }}">Contact Us</a></li>
                             </ul>
                         </div>
                     </nav>

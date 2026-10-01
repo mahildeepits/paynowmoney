@@ -22,7 +22,7 @@
                         <!-- Footer Column -->
                         <div class="footer-column col-lg-7 col-md-6 col-sm-12">
                             <div class="footer-widget about-widget">
-                                <div class="logo"><a href="{{ route('web.home') }}"><img src="assets/images/logo.png"
+                                <div class="logo"><a href="{{ url('/') }}"><img src="assets/images/logo.png"
                                                                             alt="" title=""></a></div>
                                 <div class="text">You get to make life decisions without being overly stressed about the financial impact because you are prepared.
                                 </div>
@@ -39,11 +39,11 @@
                             <div class="footer-widget links-widget">
                                 <h3>Links?</h3>
                                 <ul class="nav-list">
-                                    <li><a href="{{ route('web.home') }}">Home</a></li>
-                                    <li><a href="{{ route('web.aboutus') }}">About Us</a></li>
-                                    <li><a href="{{ route('web.business') }}">Business</a></li>
-                                    <li><a href="{{ route('web.products') }}">Products</a></li>
-                                    <li><a href="{{ route('web.contact') }}">Contact</a></li>
+                                    <li><a href="{{ url('/') }}">Home</a></li>
+                                    <li><a href="{{ url('/about-us') }}">About Us</a></li>
+                                    <li><a href="{{ url('/business') }}">Business</a></li>
+                                    <li><a href="{{ url('/products') }}">Products</a></li>
+                                    <li><a href="{{ url('/contact-us') }}">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -60,9 +60,9 @@
                             <div class="footer-widget links-widget style-two">
                                 <h3>Useful Links</h3>
                                 <ul class="nav-list">
-                                    <li><a href="{{ route('login') }}">Login</a></li>
-                                    <li><a href="{{ route('register') }}">Signup</a></li>
-                                    <li><a href="{{ route('web.contact') }}">Contact Us</a></li>
+                                    <li><a href="{{ url('/member/login') }}">Login</a></li>
+                                    <li><a href="{{ url('/member/register') }}">Signup</a></li>
+                                    <li><a href="{{ url('/contact-us') }}">Contact Us</a></li>
                                 </ul>
                             </div>
                         </div>
