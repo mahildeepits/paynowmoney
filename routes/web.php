@@ -117,6 +117,11 @@ Route::group(['prefix'=>'admin'], function (){
         Route::post('productupdate/update',[ProductController::class,'update'])->name('admin.product.update');
         Route::get('product_image/delete/{id}',[ProductController::class,'destroyimage'])->name('admin.delete_product_image');
         Route::get('deletedproduct',[ProductController::class,'Deleted_product_list'])->name('admin.deleted.product');
+        
+        // Showcase Products
+        Route::resource('showcase-products', \App\Http\Controllers\Admin\ShowcaseProductController::class)->names('admin.showcase-products');
+
+
 
         //Orders
         Route::get('order',[OrderController::class,'index'])->name('admin.orders');
@@ -216,6 +221,13 @@ Route::group(['prefix'=>'admin'], function (){
         // User RDs
         Route::get('user-rds', [\App\Http\Controllers\Admin\UserRdController::class, 'index'])->name('admin.user_rds.index');
         Route::post('user-rds/{id}/review', [\App\Http\Controllers\Admin\UserRdController::class, 'review'])->name('admin.user_rds.review');
+
+        // FD Master
+        Route::resource('fds', \App\Http\Controllers\Admin\FdMasterController::class)->names('admin.fds');
+
+        // User FDs
+        Route::get('user-fds', [\App\Http\Controllers\Admin\UserFdController::class, 'index'])->name('admin.user_fds.index');
+        Route::post('user-fds/{id}/review', [\App\Http\Controllers\Admin\UserFdController::class, 'review'])->name('admin.user_fds.review');
 
     });
     Route::get('memberids',[UsersController::class,'searchMembers'])->name('search-members');

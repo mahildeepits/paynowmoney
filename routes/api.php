@@ -26,6 +26,7 @@ Route::get('/kits/list',[ShoppingApiController::class,'purchaseKit'])->name('kit
 Route::get('/referral-settings', [\App\Http\Controllers\Api\SettingController::class, 'getReferralSettings'])->name('api.referral-settings');
 Route::get('/app-settings', [\App\Http\Controllers\Api\SettingController::class, 'getAppSettings'])->name('api.app-settings');
 Route::get('/loans/public', [\App\Http\Controllers\Api\LoanController::class, 'getPublicLoans'])->name('api.loans.public');
+Route::get('/showcase-products', [\App\Http\Controllers\Api\ShowcaseProductController::class, 'index'])->name('api.showcase-products');
 
 // Authentication Routes
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
@@ -68,4 +69,10 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/rd/check-eligibility', [\App\Http\Controllers\Api\RdController::class, 'checkEligibility']);
     Route::post('/rd/apply', [\App\Http\Controllers\Api\RdController::class, 'apply']);
     Route::get('/rd/my-rds', [\App\Http\Controllers\Api\RdController::class, 'myRds']);
+
+    // FD Plans
+    Route::get('/fd-plans', [\App\Http\Controllers\Api\FdController::class, 'index']);
+    Route::get('/fd/check-eligibility', [\App\Http\Controllers\Api\FdController::class, 'checkEligibility']);
+    Route::post('/fd/apply', [\App\Http\Controllers\Api\FdController::class, 'apply']);
+    Route::get('/fd/my-fds', [\App\Http\Controllers\Api\FdController::class, 'myFds']);
 });

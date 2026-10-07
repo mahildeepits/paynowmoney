@@ -110,6 +110,11 @@
             --}}
             
             <li>
+                <a href="{{ route('admin.showcase-products.index') }}">
+                    <i class="menu-icon fa fa-shopping-bag"></i><span>Showcase Products</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('website.settings') }}">
                     <i class="menu-icon fa fa-gears"></i><span>System Settings</span>
                 </a>

@@ -46,7 +46,7 @@ class User extends Authenticatable
         'wallet_pin'
     ];
 
-    protected $appends = ['profile'];
+    protected $appends = ['profile', 'profile_image_url'];
 
     public static $panCardOption = [
         'pan_exist' => 'Pancard Available',
