@@ -22,12 +22,20 @@ class PaymentController extends Controller
             return $method;
         });
 
+        $latestRequest = null;
+        if (auth()->check()) {
+            $latestRequest = PaymentRequest::where('user_id', auth()->user()->member_id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Payment details fetched successfully',
             'data' => [
                 'activation_fee' => $activationFee,
-                'payment_methods' => $paymentMethods
+                'payment_methods' => $paymentMethods,
+                'latest_request' => $latestRequest
             ]
         ], 200);
     }
@@ -36,8 +44,8 @@ class PaymentController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric',
-            'transaction_id' => 'required|string',
-            'receipt_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'transaction_id' => 'required_without:receipt_image|nullable|string',
+            'receipt_image' => 'required_without:transaction_id|nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user = auth()->user();

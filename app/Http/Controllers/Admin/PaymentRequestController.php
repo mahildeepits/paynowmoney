@@ -22,7 +22,7 @@ class PaymentRequestController extends Controller
         
         $request->validate([
             'status' => 'required|in:approved,rejected',
-            'remarks' => 'nullable|string'
+            'remarks' => 'required_if:status,rejected|string'
         ]);
 
         $paymentRequest->status = $request->status;

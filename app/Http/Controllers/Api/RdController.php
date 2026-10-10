@@ -98,6 +98,99 @@ class RdController extends Controller
         ], 200);
     }
 
+    public function enroll(Request $request)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'plan_id' => 'required|exists:rd_masters,id',
+            'monthly_deposit' => 'required|numeric',
+            'duration' => 'required|integer',
+            'total_expected_return' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = $request->user();
+
+        if ($user->is_blocked || $user->is_paid != 1 || !$user->isKycApproved()) {
+             return response()->json([
+                'status' => false,
+                'message' => 'You are not eligible to apply for RD.'
+            ], 403);
+        }
+
+        $userRd = \App\Models\UserRd::create([
+            'user_id' => $user->id,
+            'rd_master_id' => $request->plan_id,
+            'monthly_deposit' => $request->monthly_deposit,
+            'duration_months' => $request->duration,
+            'total_expected_return' => $request->total_expected_return,
+            'status' => 'pending_approval',
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'RD Enrollment request submitted successfully. Awaiting admin approval.',
+            'data' => $userRd
+        ], 200);
+    }
+
+    public function payEmi(Request $request)
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'emi_id' => 'required|exists:user_rd_emis,id',
+            'payment_method' => 'required|string',
+            'payment_screenshot' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'transaction_id' => 'nullable|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = $request->user();
+        $emi = \App\Models\UserRdEmi::where('id', $request->emi_id)->where('user_id', $user->id)->first();
+
+        if (!$emi) {
+            return response()->json(['status' => false, 'message' => 'EMI not found.'], 404);
+        }
+
+        if ($emi->status === 'paid' || $emi->status === 'pending_approval') {
+            return response()->json(['status' => false, 'message' => 'EMI is already paid or pending approval.'], 400);
+        }
+
+        $screenshotPath = null;
+        if ($request->hasFile('payment_screenshot')) {
+            $file = $request->file('payment_screenshot');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/rd_screenshots'), $filename);
+            $screenshotPath = 'uploads/rd_screenshots/' . $filename;
+        }
+
+        $emi->update([
+            'status' => 'pending_approval',
+            'payment_method' => $request->payment_method,
+            'payment_screenshot' => $screenshotPath,
+            'transaction_id' => $request->transaction_id,
+            'payment_date' => now()->format('Y-m-d')
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'EMI payment submitted successfully. Awaiting admin approval.',
+            'data' => $emi
+        ], 200);
+    }
+
     public function myRds(Request $request)
     {
         $user = $request->user();

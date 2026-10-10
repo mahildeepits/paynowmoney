@@ -46,6 +46,12 @@
             </li>
             
             <li>
+                <a href="{{ route('admin.fds.index') }}">
+                    <i class="menu-icon fa fa-shield"></i><span>FD Masters</span>
+                </a>
+            </li>
+            
+            <li>
                 <a href="{{ route('admin.rds.index') }}">
                     <i class="menu-icon fa fa-refresh"></i><span>RD Masters</span>
                 </a>
@@ -54,6 +60,18 @@
             <li>
                 <a href="{{ route('admin.user_loans.index') }}">
                     <i class="menu-icon fa fa-handshake-o"></i><span>User Loan Requests</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('admin.user_fds.index') }}">
+                    <i class="menu-icon fa fa-bank"></i><span>User FD Requests</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="{{ route('admin.user_rds.index') }}">
+                    <i class="menu-icon fa fa-exchange"></i><span>User RD Requests</span>
                 </a>
             </li>
             

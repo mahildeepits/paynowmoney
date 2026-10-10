@@ -60,6 +60,9 @@ class AuthController extends Controller
         $rewards = $user->latestReward();
         $rank = $rewards !== null ? $rewards->reward->rank : 'No Rank';
 
+        $user->has_pending_request = \App\Models\PaymentRequest::where('user_id', $user->member_id)
+            ->where('status', 'pending')->exists();
+
         return response()->json([
             'status' => true,
             'message' => 'Login successful',

@@ -221,6 +221,9 @@ Route::group(['prefix'=>'admin'], function (){
         // User RDs
         Route::get('user-rds', [\App\Http\Controllers\Admin\UserRdController::class, 'index'])->name('admin.user_rds.index');
         Route::post('user-rds/{id}/review', [\App\Http\Controllers\Admin\UserRdController::class, 'review'])->name('admin.user_rds.review');
+        Route::get('user-rds/{id}/emis', [\App\Http\Controllers\Admin\UserRdController::class, 'emis'])->name('admin.user_rds.emis');
+        Route::post('user-rds/emi/{id}/verify', [\App\Http\Controllers\Admin\UserRdController::class, 'verifyEmi'])->name('admin.user_rds.emi.verify');
+        Route::post('user-rds/emi/{id}/reject', [\App\Http\Controllers\Admin\UserRdController::class, 'rejectEmi'])->name('admin.user_rds.emi.reject');
 
         // FD Master
         Route::resource('fds', \App\Http\Controllers\Admin\FdMasterController::class)->names('admin.fds');

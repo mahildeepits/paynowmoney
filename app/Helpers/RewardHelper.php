@@ -486,4 +486,41 @@ class RewardHelper
         $net_amount = round(($amount - $tds) - $admin_charges);
         self::addWalletIncome($user, $amount, 'autopool');
     }
+
+    public static function distributeInvestmentLevelIncome($user_id, $amount, $type)
+    {
+        $user = User::find($user_id);
+        if (!$user || !$user->sponsor_id) {
+            return;
+        }
+
+        $referralSettings = \App\Models\ReferralSetting::where('type', $type)->orderBy('level', 'asc')->get();
+        if ($referralSettings->isEmpty()) {
+            return;
+        }
+
+        $currentSponsorMemberId = $user->sponsor_id;
+        foreach ($referralSettings as $setting) {
+            if (!$currentSponsorMemberId) {
+                break;
+            }
+
+            $sponsor = User::where('member_id', $currentSponsorMemberId)->first();
+            if (!$sponsor) {
+                break;
+            }
+
+            // Calculate percentage of the EMI amount
+            $incomeAmount = round(($amount * $setting->percentage) / 100, 2);
+            
+            if ($incomeAmount > 0) {
+                // Determine keyword to store in wallet transaction
+                $keyword = strtolower($type) . '_level_' . $setting->level;
+                self::addWalletIncome($sponsor, $incomeAmount, $keyword);
+            }
+
+            // Move to the next upline
+            $currentSponsorMemberId = $sponsor->sponsor_id;
+        }
+    }
 }

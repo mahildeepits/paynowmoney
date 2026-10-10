@@ -111,7 +111,10 @@ class User extends Authenticatable
                                 'charity_income',
                                 'pin_transfer',
                             ])->orWhere('keyword', 'LIKE', 'self_transfer_level%')
-                              ->orWhere('keyword', 'LIKE', 'level%income');
+                              ->orWhere('keyword', 'LIKE', 'level%income')
+                              ->orWhere('keyword', 'LIKE', 'rd_level_%')
+                              ->orWhere('keyword', 'LIKE', 'fd_level_%')
+                              ->orWhere('keyword', 'LIKE', 'loan_level_%');
                         })
                         ->sum('amount');
         

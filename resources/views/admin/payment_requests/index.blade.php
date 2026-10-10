@@ -55,10 +55,11 @@
                                         <input type="hidden" name="status" value="approved">
                                         <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Approve this payment and activate user?')">Approve</button>
                                     </form>
-                                    <form action="{{ route('admin.payment-requests.status', $req->id) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('admin.payment-requests.status', $req->id) }}" method="POST" style="display:inline-block;" id="reject-form-{{$req->id}}">
                                         @csrf
                                         <input type="hidden" name="status" value="rejected">
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Reject this payment?')">Reject</button>
+                                        <input type="hidden" name="remarks" id="remarks-{{$req->id}}" value="">
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="rejectPayment({{ $req->id }})">Reject</button>
                                     </form>
                                 @else
                                     {{ ucfirst($req->status) }}
@@ -73,4 +74,20 @@
     </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+function rejectPayment(id) {
+    let remark = prompt("Please enter the reason for rejection:");
+    if (remark !== null) {
+        if (remark.trim() === '') {
+            alert("A reason is required to reject a payment request.");
+            return;
+        }
+        document.getElementById('remarks-' + id).value = remark.trim();
+        document.getElementById('reject-form-' + id).submit();
+    }
+}
+</script>
 @endsection

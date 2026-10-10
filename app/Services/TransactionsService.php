@@ -21,7 +21,7 @@ class TransactionsService {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = authUser();
+        $user = auth()->user() ?? authUser();
         
         if ($user->is_paid == 0) {
             return response()->json(['status' => false,'message' => 'Please activate your ID before withdrawal','code' => 400]);

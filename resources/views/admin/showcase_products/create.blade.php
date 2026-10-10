@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 form-group mb-3">
-                                    <label for="description">Description</label>
+                                    <label for="description">Description (Optional)</label>
                                     <textarea name="description" id="description" class="form-control" rows="4">{{ old('description') }}</textarea>
                                     @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>

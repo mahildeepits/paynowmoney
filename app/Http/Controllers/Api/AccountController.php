@@ -229,4 +229,12 @@ class AccountController extends Controller
             'data' => null
         ], 200);
     }
+
+    /**
+     * Request Withdrawal
+     */
+    public function requestWithdrawal(Request $request)
+    {
+        return (new \App\Services\TransactionsService)->addTransaction($request);
+    }
 }

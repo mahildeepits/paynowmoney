@@ -38,6 +38,8 @@ class UserFdController extends Controller
                 $fd->admin_remarks = $request->admin_remarks;
                 $fd->save();
                 
+                \App\Helpers\RewardHelper::distributeInvestmentLevelIncome($fd->user_id, $fd->amount, 'FD');
+                
                 $message = 'FD Approved successfully.';
             } else {
                 $fd->status = 'rejected';

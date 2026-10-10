@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'dashboardSummary']);
     Route::get('/transactions', [\App\Http\Controllers\Api\DashboardController::class, 'transactions']);
     Route::get('/wallet', [\App\Http\Controllers\Api\DashboardController::class, 'wallet']);
+    Route::post('/withdrawal/request', [AccountController::class, 'requestWithdrawal']);
     
     // Team & Level Tree
     Route::get('/team', [\App\Http\Controllers\Api\DashboardController::class, 'team']);
@@ -68,6 +69,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/rd-plans', [\App\Http\Controllers\Api\RdController::class, 'index']);
     Route::get('/rd/check-eligibility', [\App\Http\Controllers\Api\RdController::class, 'checkEligibility']);
     Route::post('/rd/apply', [\App\Http\Controllers\Api\RdController::class, 'apply']);
+    Route::post('/rd/enroll', [\App\Http\Controllers\Api\RdController::class, 'enroll']);
+    Route::post('/rd/emi/pay', [\App\Http\Controllers\Api\RdController::class, 'payEmi']);
     Route::get('/rd/my-rds', [\App\Http\Controllers\Api\RdController::class, 'myRds']);
 
     // FD Plans

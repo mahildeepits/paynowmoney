@@ -14,10 +14,14 @@ class DashboardController extends Controller
     {
         $user = $request->user();
         
+        $activation_deposit = $this->getActivationDeposit($user);
+        
         return response()->json([
             'status' => true,
             'message' => 'Dashboard Summary',
             'data' => [
+                'user' => $user,
+                'activation_deposit' => $activation_deposit,
                 'total_balance' => $user->walletIncomesByKey('totalIncome'),
                 'active_loan' => \App\Models\Emi::where('user_id', $user->id)->where('status', 'unpaid')->sum('amount'),
                 'total_income' => $user->walletIncomesByKey('total'),
@@ -44,14 +48,42 @@ class DashboardController extends Controller
     {
         $user = $request->user();
         
-        $history = WalletTransaction::where('user_id', $user->member_id)->orderBy('id', 'desc')->get();
+        $walletHistory = WalletTransaction::where('user_id', $user->member_id)
+                            ->orderBy('id', 'desc')->get()
+                            ->map(function ($item) {
+                                return [
+                                    'id' => 'wt_' . $item->id,
+                                    'keyword' => $item->keyword,
+                                    'slug' => $item->slug,
+                                    'created_at' => $item->created_at,
+                                    'amount' => $item->amount,
+                                ];
+                            })->toArray();
+
+        $paymentRequests = \App\Models\PaymentRequest::where('user_id', $user->member_id)
+                            ->orderBy('id', 'desc')->get()
+                            ->map(function ($pr) {
+                                return [
+                                    'id' => 'pr_' . $pr->id,
+                                    'keyword' => 'payment_request_' . strtolower($pr->status),
+                                    'slug' => 'Activation Deposit (' . ucfirst($pr->status) . ')',
+                                    'created_at' => $pr->created_at,
+                                    'amount' => $pr->amount,
+                                ];
+                            })->toArray();
+                            
+        $history = collect(array_merge($walletHistory, $paymentRequests))->sortByDesc('created_at')->values()->all();
+        
+        $locked_amount = $this->getActivationDeposit($user);
+        $available_balance = $user->walletIncomesByKey('totalIncome');
+        $total_balance = $available_balance + $locked_amount;
 
         return response()->json([
             'status' => true,
             'data' => [
-                'total_balance' => $user->walletIncomesByKey('totalIncome'),
-                'available_balance' => $user->walletIncomesByKey('totalIncome'),
-                'locked_amount' => 0,
+                'total_balance' => $total_balance,
+                'available_balance' => $available_balance,
+                'locked_amount' => $locked_amount,
                 'history' => $history
             ]
         ]);
@@ -112,5 +144,23 @@ class DashboardController extends Controller
             'left' => $left,
             'right' => $right
         ];
+    }
+
+    private function getActivationDeposit($user)
+    {
+        $activation_deposit = \App\Models\PaymentRequest::where('user_id', $user->member_id)
+            ->where('status', 'approved')
+            ->sum('amount');
+            
+        if ($activation_deposit == 0 && $user->is_paid == 1) {
+            $latestKit = $user->latestJoiningKit;
+            if ($latestKit) {
+                $activation_deposit = $latestKit->amount;
+            } elseif ($user->used_pin_rel && $user->used_pin_rel->joining_kit_rel) {
+                $activation_deposit = $user->used_pin_rel->joining_kit_rel->amount;
+            }
+        }
+        
+        return $activation_deposit;
     }
 }
